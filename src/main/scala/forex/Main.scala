@@ -1,11 +1,11 @@
 package forex
 
-import cats.effect._
-import com.comcast.ip4s._
-import forex.config._
+import cats.effect.*
+import com.comcast.ip4s.*
+import forex.config.*
 import fs2.io.net.Network
 import org.http4s.HttpApp
-import org.http4s.ember.server._
+import org.http4s.ember.server.*
 import org.http4s.server.Server
 
 object Main extends ResourceApp.Forever {

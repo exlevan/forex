@@ -3,10 +3,10 @@ package forex
 import cats.effect.Async
 import forex.config.ApplicationConfig
 import forex.http.rates.RatesHttpRoutes
-import forex.services._
-import forex.programs._
-import org.http4s._
-import org.http4s.implicits._
+import forex.services.*
+import forex.programs.*
+import org.http4s.*
+import org.http4s.implicits.*
 import org.http4s.server.middleware.{ AutoSlash, Timeout }
 
 class Module[F[_]](
@@ -25,11 +25,11 @@ class Module[F[_]](
   type PartialMiddleware = HttpRoutes[F] => HttpRoutes[F]
   type TotalMiddleware   = HttpApp[F] => HttpApp[F]
 
-  private val routesMiddleware: PartialMiddleware = { http: HttpRoutes[F] =>
+  private val routesMiddleware: PartialMiddleware = { (http: HttpRoutes[F]) =>
     AutoSlash(http)
   }
 
-  private val appMiddleware: TotalMiddleware = { http: HttpApp[F] =>
+  private val appMiddleware: TotalMiddleware = { (http: HttpApp[F]) =>
     Timeout(config.http.timeout)(http)
   }
 

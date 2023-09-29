@@ -3,7 +3,7 @@ package forex.config
 import cats.effect.Sync
 
 import pureconfig.ConfigSource
-import pureconfig.generic.auto._
+import pureconfig.generic.auto.*
 
 object Config {
 

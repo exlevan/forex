@@ -1,9 +1,9 @@
 package forex.http.rates
 
-import forex.domain._
+import forex.domain.*
 
 object Converters {
-  import Protocol._
+  import Protocol.*
 
   private[rates] implicit class GetApiResponseOps(val rate: Rate) extends AnyVal {
     def asGetApiResponse: GetApiResponse =

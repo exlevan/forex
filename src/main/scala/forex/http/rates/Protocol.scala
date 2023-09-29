@@ -3,8 +3,8 @@ package rates
 
 import forex.domain.Currency.show
 import forex.domain.Rate.Pair
-import forex.domain._
-import io.circe._
+import forex.domain.*
+import io.circe.*
 import io.circe.generic.extras.Configuration
 import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 

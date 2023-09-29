@@ -2,8 +2,8 @@ package forex.programs.rates
 
 import cats.Functor
 import cats.data.EitherT
-import errors._
-import forex.domain._
+import errors.*
+import forex.domain.*
 import forex.services.RatesService
 
 class Program[F[_]: Functor](ratesService: RatesService[F]) extends Algebra[F] {

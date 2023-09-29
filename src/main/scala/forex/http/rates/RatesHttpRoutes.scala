@@ -2,16 +2,16 @@ package forex.http
 package rates
 
 import cats.effect.Sync
-import cats.syntax.flatMap._
+import cats.syntax.flatMap.*
 import forex.programs.RatesProgram
-import forex.programs.rates.{ Protocol => RatesProgramProtocol }
+import forex.programs.rates.Protocol as RatesProgramProtocol
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import org.http4s.server.Router
 
 class RatesHttpRoutes[F[_]: Sync](rates: RatesProgram[F]) extends Http4sDsl[F] {
 
-  import Converters._, QueryParams._, Protocol._
+  import Converters.*, QueryParams.*, Protocol.*
 
   private[http] val prefixPath = "/rates"
 

@@ -1,4 +1,4 @@
-import Dependencies._
+import Dependencies.*
 
 name := "forex"
 version := "1.0.1"
@@ -30,6 +30,7 @@ scalacOptions ++= Seq(
   "-Xlint:stars-align", // Pattern sequence wildcard must align with sequence component.
   "-Xlint:type-parameter-shadow", // A local type parameter shadows a type already in scope.
   "-Xlog-reflective-calls", // Print a message when a reflective method call is generated
+  "-Xsource:3", // Enable Scala 3 syntax
   "-Ywarn-dead-code", // Warn when dead code is identified.
   "-Ywarn-value-discard", // Warn when non-Unit expression results are unused.
   "-Xlint:constant", // Evaluation of a constant arithmetic expression results in an error.
