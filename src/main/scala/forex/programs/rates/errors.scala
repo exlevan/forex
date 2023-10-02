@@ -4,7 +4,8 @@ import forex.services.rates.errors.Error as RatesServiceError
 
 object errors {
 
-  sealed trait Error extends Exception
+  sealed trait Error extends Exception with Product
+
   object Error {
     final case class RateLookupFailed(msg: String) extends Error
   }

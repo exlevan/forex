@@ -29,6 +29,8 @@ class Module[F[_]](
     AutoSlash(http)
   }
 
+  // TODO: error handling
+
   private val appMiddleware: TotalMiddleware = { (http: HttpApp[F]) =>
     Timeout(config.http.timeout)(http)
   }

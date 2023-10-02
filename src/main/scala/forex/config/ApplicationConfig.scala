@@ -1,7 +1,9 @@
 package forex.config
 
+import com.comcast.ip4s.{ Host, Port }
+
 import scala.concurrent.duration.FiniteDuration
 
 case class ApplicationConfig(http: HttpConfig)
 
-case class HttpConfig(host: String, port: Int, timeout: FiniteDuration)
+case class HttpConfig(host: Host, port: Port, timeout: FiniteDuration)

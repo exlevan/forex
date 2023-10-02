@@ -1,7 +1,6 @@
 package forex
 
 import cats.effect.*
-import com.comcast.ip4s.*
 import forex.config.*
 import fs2.io.net.Network
 import org.http4s.HttpApp
@@ -26,8 +25,8 @@ class Application[F[_]: Async: Network] {
   def server(config: HttpConfig, app: HttpApp[F]): Resource[F, Server] =
     EmberServerBuilder
       .default[F]
-      .withHost(Ipv4Address.fromString(config.host).get)
-      .withPort(Port.fromInt(config.port).get)
+      .withHost(config.host)
+      .withPort(config.port)
       .withHttpApp(app)
       .build
 }

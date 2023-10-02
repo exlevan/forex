@@ -7,7 +7,7 @@ scalaVersion := "2.13.12"
 scalacOptions ++= Seq(
   "-deprecation", // Emit warning and location for usages of deprecated APIs.
   "-encoding",
-  "utf-8", // Specify character encoding used by source files.
+  "UTF-8", // Specify character encoding used by source files.
   "-explaintypes", // Explain type errors in more detail.
   "-feature", // Emit warning and location for usages of features that should be imported explicitly.
   "-language:existentials", // Existential types (besides wildcard types) can be written and inferred
@@ -15,6 +15,7 @@ scalacOptions ++= Seq(
   "-language:higherKinds", // Allow higher-kinded types
   "-language:implicitConversions", // Allow definition of implicit functions called views
   "-unchecked", // Enable additional warnings where generated code depends on assumptions.
+  "-Wconf:msg=constructor modifiers are assumed:s", // Disable an informational migration warning
   "-Xcheckinit", // Wrap field accessors to throw an exception on uninitialized access.
   "-Xfatal-warnings", // Fail the compilation if there are any warnings.
   "-Xlint:adapted-args", // Warn if an argument list is modified to match the receiver.
@@ -51,6 +52,7 @@ resolvers +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
 libraryDependencies ++= Seq(
+  compilerPlugin(Libraries.betterMonadicFor),
   compilerPlugin(Libraries.kindProjector),
   Libraries.cats,
   Libraries.catsEffect,
@@ -63,8 +65,14 @@ libraryDependencies ++= Seq(
   Libraries.circeGenericExt,
   Libraries.circeParser,
   Libraries.pureConfig,
-  Libraries.logback,
-  Libraries.scalaTest      % Test,
+  Libraries.pureConfigCatsEffect,
+  Libraries.pureConfigIp4s,
+  Libraries.logback        % Runtime,
+  Libraries.weaverTest     % Test,
   Libraries.scalaCheck     % Test,
   Libraries.catsScalaCheck % Test
 )
+
+testFrameworks += new TestFramework("weaver.framework.CatsEffect")
+
+run / fork := true
