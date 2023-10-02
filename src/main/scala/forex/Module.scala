@@ -1,22 +1,24 @@
 package forex
 
+import cats.data.OptionT
 import cats.effect.Async
+import cats.effect.std.Console
+import cats.implicits.*
 import forex.config.ApplicationConfig
 import forex.http.rates.RatesHttpRoutes
-import forex.services.*
 import forex.programs.*
+import forex.services.*
 import org.http4s.*
+import org.http4s.client.Client
 import org.http4s.implicits.*
-import org.http4s.server.middleware.{ AutoSlash, Timeout }
+import org.http4s.server.middleware.{ AutoSlash, ErrorAction, Timeout }
 
-class Module[F[_]](
-    config: ApplicationConfig
-)(
-    implicit
-    ev: Async[F]
+class Module[F[_]: Async: Console](
+    config: ApplicationConfig,
+    httpClient: Client[F]
 ) {
 
-  private val ratesService: RatesService[F] = RatesServices.dummy[F]
+  private val ratesService: RatesService[F] = RatesServices.live[F](config.oneFrame, httpClient)
 
   private val ratesProgram: RatesProgram[F] = RatesProgram[F](ratesService)
 
@@ -26,10 +28,18 @@ class Module[F[_]](
   type TotalMiddleware   = HttpApp[F] => HttpApp[F]
 
   private val routesMiddleware: PartialMiddleware = { (http: HttpRoutes[F]) =>
-    AutoSlash(http)
-  }
+    val console = Console[OptionT[F, *]]
 
-  // TODO: error handling
+    ErrorAction.log(
+      AutoSlash(http),
+      messageFailureLogAction = (t, msg) =>
+        console.println(msg) >>
+          console.println(t),
+      serviceErrorLogAction = (t, msg) =>
+        console.println(msg) >>
+          console.println(t)
+    )
+  }
 
   private val appMiddleware: TotalMiddleware = { (http: HttpApp[F]) =>
     Timeout(config.http.timeout)(http)

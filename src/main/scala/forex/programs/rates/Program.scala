@@ -9,7 +9,11 @@ import forex.services.RatesService
 class Program[F[_]: Functor](ratesService: RatesService[F]) extends Algebra[F] {
 
   def get(request: Protocol.GetRatesRequest): F[Error Either Rate] =
-    EitherT(ratesService.get(Rate.Pair(request.from, request.to))).leftMap(toProgramError).value
+    EitherT(
+      ratesService.getRates(List(Rate.Pair(request.from, request.to)))
+    )
+      .bimap(toProgramError, _.head._2)
+      .value
 
 }
 

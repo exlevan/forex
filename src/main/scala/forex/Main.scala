@@ -1,9 +1,12 @@
 package forex
 
 import cats.effect.*
+import cats.effect.std.Console
 import forex.config.*
 import fs2.io.net.Network
 import org.http4s.HttpApp
+import org.http4s.client.Client
+import org.http4s.ember.client.EmberClientBuilder
 import org.http4s.ember.server.*
 import org.http4s.server.Server
 
@@ -13,20 +16,26 @@ object Main extends ResourceApp.Forever {
     new Application[IO].run()
 }
 
-class Application[F[_]: Async: Network] {
+class Application[F[_]: Async: Network: Console] {
 
   def run(): Resource[F, Unit] =
     for {
       config <- Resource.eval(Config.load("app"))
-      module = new Module[F](config)
-      _ <- server(config.http, module.httpApp)
+      httpClient <- mkHttpClient()
+      module = new Module[F](config, httpClient)
+      _ <- mkServer(config.http, module.httpApp)
     } yield ()
 
-  def server(config: HttpConfig, app: HttpApp[F]): Resource[F, Server] =
+  def mkServer(config: HttpConfig, app: HttpApp[F]): Resource[F, Server] =
     EmberServerBuilder
       .default[F]
       .withHost(config.host)
       .withPort(config.port)
       .withHttpApp(app)
+      .build
+
+  def mkHttpClient(): Resource[F, Client[F]] =
+    EmberClientBuilder
+      .default[F]
       .build
 }

@@ -1,6 +1,7 @@
 package forex.config
 
 import com.comcast.ip4s.IpLiteralSyntax
+import org.http4s.implicits.*
 
 import scala.concurrent.duration.*
 import weaver.SimpleIOSuite
@@ -14,6 +15,11 @@ object ConfigSuite extends SimpleIOSuite {
         host = ipv4"0.0.0.0",
         port = port"8080",
         timeout = 40.seconds
+      ),
+      oneFrame = OneFrameConfig(
+        baseUri = uri"http://one-frame:8080/",
+        ratesRequestPairLimit = 144,
+        authToken = "tokentoken"
       )
     )
 

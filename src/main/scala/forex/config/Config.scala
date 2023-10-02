@@ -1,10 +1,10 @@
 package forex.config
 
 import cats.effect.Sync
-
 import pureconfig.ConfigSource
 import pureconfig.generic.auto.*
 import pureconfig.module.catseffect.syntax.*
+import pureconfig.module.http4s.*
 import pureconfig.module.ip4s.*
 
 object Config {

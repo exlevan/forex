@@ -28,5 +28,4 @@ object Protocol {
 
   implicit val responseCodec: Codec[GetApiResponse] =
     deriveConfiguredCodec[GetApiResponse]
-
 }

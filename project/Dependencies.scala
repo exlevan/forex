@@ -29,6 +29,7 @@ object Dependencies {
 
     lazy val http4sDsl            = http4s("http4s-dsl")
     lazy val http4sServer         = http4s("http4s-ember-server")
+    lazy val http4sClient         = http4s("http4s-ember-client")
     lazy val http4sCirce          = http4s("http4s-circe")
     lazy val circeCore            = circe("circe-core")
     lazy val circeGeneric         = circe("circe-generic")
@@ -37,6 +38,7 @@ object Dependencies {
     lazy val pureConfig           = pureconfig("pureconfig")
     lazy val pureConfigCatsEffect = pureconfig("pureconfig-cats-effect")
     lazy val pureConfigIp4s       = pureconfig("pureconfig-ip4s")
+    lazy val pureConfigHttp4s     = pureconfig("pureconfig-http4s")
 
     // Compiler plugins
     lazy val betterMonadicFor = "com.olegpy"   %% "better-monadic-for" % Versions.betterMonadicFor
