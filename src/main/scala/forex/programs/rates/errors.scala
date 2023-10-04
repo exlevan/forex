@@ -18,5 +18,7 @@ object errors {
       Error.RateLookupFailed(show"Can't fit $num currency pairs into request: only $maxNum is allowed")
     case RatesServiceError.OneFrameInvalidPair(pair, msg) =>
       Error.RateLookupFailed(show"Invalid currency pair ('${pair.from}', '${pair.to}'): $msg")
+    case RatesServiceError.OneFrameUnexpectedResponse(msg) =>
+      Error.RateLookupFailed(show"Unexpected response from one-frame service: $msg")
   }
 }

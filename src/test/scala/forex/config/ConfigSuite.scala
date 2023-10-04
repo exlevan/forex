@@ -19,12 +19,12 @@ object ConfigSuite extends SimpleIOSuite {
       oneFrame = OneFrameConfig(
         baseUri = uri"http://one-frame:8080/",
         ratesRequestPairLimit = 144,
-        authToken = "tokentoken"
+        authToken = "10dc303535874aeccc86a8251e6992f5"
       )
     )
 
     for {
-      conf <- Config.load("correct-configuration")
+      conf <- Config.load("app")
     } yield expect(conf == expectedConf)
   }
 

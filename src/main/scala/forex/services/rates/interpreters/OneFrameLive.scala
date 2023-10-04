@@ -54,7 +54,10 @@ class OneFrameLive[F[_]: Concurrent](config: OneFrameConfig, httpClient: Client[
             headers = Headers("token" -> config.authToken)
           )
 
-        response <- EitherT.liftF(httpClient.expect[GetRatesResponse](request))
+        response <-
+          EitherT.liftF(httpClient.expectOr[GetRatesResponse](request) { response =>
+            (Error.OneFrameUnexpectedResponse(response.toString()): Throwable).pure[F]
+          })
 
       } yield response.rates.map { rate =>
         val pair = Rate.Pair(rate.from, rate.to)

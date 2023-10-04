@@ -1,7 +1,7 @@
 package forex
 
 import cats.effect.*
-import cats.effect.std.Console
+import cats.implicits.*
 import forex.config.*
 import fs2.io.net.Network
 import org.http4s.HttpApp
@@ -16,13 +16,14 @@ object Main extends ResourceApp.Forever {
     new Application[IO].run()
 }
 
-class Application[F[_]: Async: Network: Console] {
+class Application[F[_]: Async: Network] {
 
-  def run(): Resource[F, Unit] =
+  def run(overrideConfig: ApplicationConfig => ApplicationConfig = identity): Resource[F, Unit] =
     for {
-      config <- Resource.eval(Config.load("app"))
+      config <- Resource.eval(Config.load("app").map(overrideConfig))
       httpClient <- mkHttpClient()
       module = new Module[F](config, httpClient)
+      _ <- Spawn[F].background(module.asyncEffects)
       _ <- mkServer(config.http, module.httpApp)
     } yield ()
 

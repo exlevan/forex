@@ -2,6 +2,8 @@ package forex.domain
 
 import cats.Show
 
+import scala.util.Random
+
 /** A monetary unit involved in exchange transactions.
   *
   * To create new instances, use [[Currency.fromString]].
@@ -42,6 +44,13 @@ object Currency {
     "ZMW", "ZWD"
     // format: on
   )
+
+  private val supportedCurrenciesArray: Array[String] = supportedCurrencies.toArray
+
+  def randomCurrency(): Currency = {
+    val i = Random.nextInt(supportedCurrenciesArray.length)
+    Currency(supportedCurrenciesArray(i))
+  }
 
   implicit val show: Show[Currency] = Show.show(_.value)
 

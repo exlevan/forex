@@ -16,6 +16,7 @@ object Dependencies {
     val scalaCheck       = "1.17.0"
     val weaverTest       = "0.8.3"
     val catsScalaCheck   = "0.3.2"
+    val testContainers   = "0.41.0"
   }
 
   object Libraries {
@@ -48,9 +49,10 @@ object Dependencies {
     lazy val logback = "ch.qos.logback" % "logback-classic" % Versions.logback
 
     // Test
-    lazy val weaverTest     = "com.disneystreaming" %% "weaver-cats"     % Versions.weaverTest
-    lazy val scalaCheck     = "org.scalacheck"      %% "scalacheck"      % Versions.scalaCheck
-    lazy val catsScalaCheck = "io.chrisdavenport"   %% "cats-scalacheck" % Versions.catsScalaCheck
+    lazy val weaverTest     = "com.disneystreaming" %% "weaver-cats"               % Versions.weaverTest
+    lazy val testContainers = "com.dimafeng"        %% "testcontainers-scala-core" % Versions.testContainers
+    lazy val scalaCheck     = "org.scalacheck"      %% "scalacheck"                % Versions.scalaCheck
+    lazy val catsScalaCheck = "io.chrisdavenport"   %% "cats-scalacheck"           % Versions.catsScalaCheck
   }
 
 }

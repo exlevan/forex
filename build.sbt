@@ -71,8 +71,7 @@ libraryDependencies ++= Seq(
   Libraries.pureConfigIp4s,
   Libraries.logback        % Runtime,
   Libraries.weaverTest     % Test,
-  Libraries.scalaCheck     % Test,
-  Libraries.catsScalaCheck % Test
+  Libraries.testContainers % Test
 )
 
 testFrameworks += new TestFramework("weaver.framework.CatsEffect")
